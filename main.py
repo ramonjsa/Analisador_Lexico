@@ -12,7 +12,7 @@ f.close()
 
 def main():
     print(sys.argv[1])
-    if len(sys.argv) > 2 :
+    if len(sys.argv) > 1 :
         fonte = open(sys.argv[1], 'r')
         #print(''.join(fonte.read()))
     # imprime a lista de simbolos
