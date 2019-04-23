@@ -40,7 +40,14 @@ class DFA:
             1: {'0': 7, '1': 7, '2': 7, '3': 7, '4': 7, '5': 7, '6': 7, '7': 7, '8': 7, '9': 7},
             2: {'0': 8, '1': 8, '2': 8, '3': 8, '4': 8, '5': 8, '6': 8, '7': 8, '8': 8, '9': 8, '+': 3, '-': 3},
             3: {'0': 8, '1': 8, '2': 8, '3': 8, '4': 8, '5': 8, '6': 8, '7': 8, '8': 8, '9': 8},
-            4: {'"': 10},
+            4: {'"': 10,'\n': 4, '\t': 4, '\r': 4, ' ': 4, '0': 4, '1': 4, '2': 4, '3': 4, '4': 4, '5': 4, '6': 4, '7': 4,
+                '8': 4,
+                '9': 4, 'a': 4, 'b': 4, 'c': 4, 'd': 4, 'e': 4, 'f': 4, 'g': 4, 'h': 4, 'i': 4, 'j': 4, 'k': 4, 'l': 4,
+                'm': 4, 'n': 4, 'o': 4, 'p': 4, 'q': 4, 'r': 4, 's': 4, 't': 4, 'u': 4, 'v': 4, 'w': 4, 'x': 4, 'y': 4,
+                'z': 4, 'A': 4, 'B': 4, 'C': 4, 'D': 4, 'E': 4, 'F': 4, 'G': 4, 'H': 4, 'I': 4, 'J': 4, 'K': 4, 'L': 4,
+                'M': 4, 'N': 4, 'O': 4, 'P': 4, 'Q': 4, 'R': 4, 'S': 4, 'T': 4, 'U': 4, 'V': 4, 'W': 4, 'X': 4, 'Y': 4,
+                'Z': 4, '*': 4, '/': 4, '+': 4, '-': 4, '': 4,  '{': 4, '<': 4, '>': 4, '=': 4, '(': 4,
+                ')': 4, ';': 4, ':': 4,'\\':4},
             5: {'}': 0},
             6: {'0': 6, '1': 6, '2': 6, '3': 6, '4': 6, '5': 6, '6': 6, '7': 6, '8': 6, '9': 6, '.': 1, 'E': 2},
             7: {'E': 2, '0': 7, '1': 7, '2': 7, '3': 7, '4': 7, '5': 7, '6': 7, '7': 7, '8': 7, '9': 7},
@@ -59,11 +66,19 @@ class DFA:
 
     def processa_string(self,entrada):
         atual = self.estado_inicial
+        if entrada=='':
+            return 12
         for c in entrada:
+
+            if atual in self.transicoes:
+
                 if c in self.transicoes[atual]:
+
                     atual = self.transicoes[atual][c]
                 else:
                     return -1
+            else:
+                return  -1
         return atual
 
     def processa_caracter(self,entrada):
@@ -163,8 +178,8 @@ if __name__ == "__main__":
             dfa.incluir_transicao(origem,caracter,destino)
     #print(dfa.atual)
     '''
-    dfa.processa_caracter('1')
-    result = dfa.processa_string('inicio')
+
+    result = dfa.processa_string('"\\')
     if result:
         print (result)
     else:
@@ -172,3 +187,9 @@ if __name__ == "__main__":
 
 
     print(dfa.estados[result])
+    dfa.processa_caracter('"')
+    print(dfa.atual)
+    dfa.processa_caracter('\\')
+    print(dfa.atual)
+    dfa.processa_caracter('n')
+    print(dfa.atual)

@@ -1,7 +1,6 @@
 inicio
 varinicio
 varfim
-varfim
 escreva
 leia
 se
