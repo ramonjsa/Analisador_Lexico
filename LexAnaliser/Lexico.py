@@ -1,9 +1,7 @@
-from LexAnaliser import Simbolo
-from dfa import dfa
 from dfa import DFA
 import os
 
-
+lista_de_simbolos = {}
 class Lexico:
     def __init__(self, fonte):
         self.caminho = fonte
@@ -16,117 +14,90 @@ class Lexico:
 
     def get_token(self):
         lexema = ''
-
-        # print(self.fonte.__sizeof__())
-        while self.seek < os.path.getsize(self.caminho):  # self.fonte.__sizeof__():
-            # print (self.seek)
+        global lista_de_simbolos
+        self.dfa.reset()
+        ultimo_estado = self.dfa.atual
+        #while self.seek < os.path.getsize(self.caminho):
+        while self.dfa.atual not in self.dfa.estados_de_rejeicao and self.seek <= os.path.getsize(self.caminho):
             c = self.fonte.read(1)
-            # print (ord(c))
             self.seek += 1
             self.coluna += 1
-            if self.dfa.processa_string(lexema +c) >= 0:
-                lexema += c
-                # print(ord(c))
+            estado = self.dfa.processa_caracter(c)
+            if estado not in self.dfa.estados_de_rejeicao :
+                ultimo_estado = estado
+                lexema +=c
                 if c == '\n':
                     self.linha += 1
                     self.coluna = 0
             else:
                 self.seek -= 1
                 self.fonte.seek(self.seek)
-                if self.coluna > 0: self.coluna -= 1
-                break
+                if self.coluna > 0:
+                    self.coluna -= 1
 
+
+                break
+        if ultimo_estado not in self.dfa.estados_de_aceitacao :
+            if ultimo_estado == self.dfa.estado_inicial and estado in self.dfa.estados_de_rejeicao:
+                print(
+                    'erro em ' + lexema+c + ' tipo ' + self.dfa.erros[self.dfa.estados[estado]] + " linha " + str(
+                        self.linha) + " coluna " + str(self.coluna))
+                return ('', self.dfa.erros[self.dfa.estados[estado]], '-')
+            print('erro em ' + lexema + ' tipo ' + self.dfa.erros[self.dfa.estados[ultimo_estado]] + " linha " + str( self.linha) + " coluna " + str(self.coluna))
+            return ('', self.dfa.erros[self.dfa.estados[ultimo_estado]],'-')
         lexema = lexema.lstrip()
         estado = self.dfa.processa_string(lexema)
         token = self.dfa.estados[estado]
         simbolo = (lexema, token, '-')
+        if token != 'ID':
+            print(simbolo)
 
-        #print('{} linha {} coluna {}'.format(simbolo, self.linha, self.coluna))
-        return (lexema, token, '-')
+        else :
+            if lexema in lista_de_simbolos:
+                lista = lista_de_simbolos[lexema].items()
+                tupla = list(lista)
+                print ("lexema presente na lista :("+lexema + "|\t"+str(tupla[0][0])+ "|\t"+str(tupla[0][1])+')')
 
-    '''
-    def __init__(self,entrada):
-        self.entrada=""
-        self.entrada = entrada
-        print(DFA)
-        self.dfa = DFA.DFA()
-        self.linha =0
-        self.coluna=0
-    
-    def get_Token(self):
-        inicio = self.coluna
-        lexema = ''
-        i=inicio
-        while (self.entrada[i]!=' '):
-            if self.entrada[i]== '\n':
-                self.linha+=1
+                #print(lexema + lista_de_simbolos[lexema]+lista_de_simbolos[lexema][lista_de_simbolos[lexema]])
+            else:
+        #if lexema not in lista_de_simbolos:
+                print("lexema acressentado a lista de simbolos  : ({} , {} , {})".format(lexema,token,'-'))
+                lista_de_simbolos.update({lexema:{ token: '-'}})
 
-                break
-            lexema=lexema + self.entrada[i]
-            #print(lexema)
-            i=i+1
-        print(lexema)
-        print(self.dfa.processa_string(lexema))
-        estado = self.dfa.processa_string(lexema)
-        print (self.dfa.atual)
-        for c in lexema:
-            self.dfa.processa_caracter(c)
-        estado = self.dfa.atual
-        print(estado)
-        token = self.dfa.estados[self.dfa.processa_string(lexema)]
-        #token = Simbolo.Simbolo(lexema,token,'-')
-        token = {lexema:{token:'-'}}
-
-        #token = "id"
-        return token
-    '''
+        return simbolo
 
 
 if __name__ == "__main__":
 
     f = open('../palavras_chave.txt', 'r')
-    lista_de_simbolos = {}
+
     for linha in f:
         for palavra in linha.split():
             lista_de_simbolos.update({palavra: {palavra: '-'}})
-            #lista_de_simbolos.append((palavra,palavra,'-'))
-        #.append(Simbolo.Simbolo("{}".format(palavra.rstrip("\r\n")), "{}".format(palavra.rstrip("\r\n")), "-"))
     f.close()
-    # print(lista_de_simbolos)
     print('lexico')
     lexico = Lexico("../FONTE.ALG")
 
+
+
     simbolo = lexico.get_token()
     if simbolo[0] not in lista_de_simbolos:
-        #lista_de_simbolos.append(simbolo)
         lista_de_simbolos.update({simbolo[0]: {simbolo[1]: simbolo[2]}})
         #print(simbolo)
 
-    while simbolo[0] != '':
-        # while lexico.seek < os.path.getsize(lexico.caminho):
+    while simbolo[0] != '' :
         simbolo = lexico.get_token()
-        if simbolo[0] not in lista_de_simbolos:
-            #lista_de_simbolos.append(simbolo)
-            lista_de_simbolos.update({simbolo[0]: {simbolo[1]: simbolo[2]}})
+        #if simbolo[0] not in lista_de_simbolos:
+            #lista_de_simbolos.update({simbolo[0]: {simbolo[1]: simbolo[2]}})
             #print(simbolo)
 
-    # fonte = open("../FONTE.ALG", 'r')
-    # lexico = Lexico(fonte.read())
-    # print(lexico.dfa.estados)
-    # print(lexico.dfa.transicoes)
-    # print(lexico.dfa.estados[lexico.dfa.processa_string('inicio')])
-    # print(lexico.entrada)
-    # novo_simbolo = lexico.get_Token()
-    # print(novo_simbolo)
-
-    # print(novo_simbololexema)
-    '''if novo_simbolo not in lista_de_simbolos:
-        lista_de_simbolos.update(novo_simbolo[])
-    '''
     print("lista de simbolos ao final do processamento")
     lista = sorted(lista_de_simbolos.items())
     for simbolo in lista:
         for token , tipo in simbolo[1].items():
             print(simbolo[0]+'|\t'+token+'|\t'+tipo)
 
-    #print(lista_de_simbolos)
+    if 'se' in lista_de_simbolos:
+        print('sim')
+    else:
+        print('nao')

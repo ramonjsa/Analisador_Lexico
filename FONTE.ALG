@@ -21,12 +21,12 @@ inicio
     B<-B+2;
     B<-B+3;
     D<-B;
-    C<-5.0;
+    C<-5.;
 
     escreva "\nB=\n";
     escreva D;
     escreva "\n";
     escreva C;
     escreva "\n";
-    escreva A;
+    escreva @A;
 fim
