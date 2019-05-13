@@ -57,7 +57,7 @@ class Lexico:
                 lista = lista_de_simbolos[lexema].items()
                 tupla = list(lista)
                 print ("lexema presente na lista :("+lexema + "|\t"+str(tupla[0][0])+ "|\t"+str(tupla[0][1])+')')
-
+                return (lexema,str(tupla[0][0]),str(tupla[0][1]))
                 #print(lexema + lista_de_simbolos[lexema]+lista_de_simbolos[lexema][lista_de_simbolos[lexema]])
             else:
         #if lexema not in lista_de_simbolos:
