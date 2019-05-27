@@ -1,5 +1,5 @@
-estado,inicio,varinicio,varfim,ID,;,int,real,lit,leia,escreva,Literal,Num,RCB,OPM,se,(,),entao,OPR,fimse,fim,enquanto,faca,fimenquanto,$,P’,P,V,A,LV,D,TIPO,ES,ARG,CMD,LD,OPRD,COND,CABECALHO,CORPO,EXP_R,CORPO,REP,CORPO_ENQUANTO
-0,S2,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,
+estado,inicio,varinicio,varfim,ID,PT_V,int,real,lit,leia,escreva,Literal,Num,RCB,OPM,se,(,),entao,OPR,fimse,fim,enquanto,faca,fimenquanto,$,P’,P,V,A,LV,D,TIPO,ES,ARG,CMD,LD,OPRD,COND,CABECALHO,CORPO,EXP_R,CORPO,REP,CORPO_ENQUANTO
+0,S(2),,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,,
 1,,,,,,,,,,,,,,,,,,,,,,,,,ACCEPT,,,,,,,,,,,,,,,,,,,
 2,,S(4),,,,,,,,,,,,,,,,,,,,,,,,,,3,,,,,,,,,,,,,,,,
 3,,,,S(26),,,,,S(19),S(21),,,,,S(41),,,,,,S(18),S(49),,,,,13,,,,,,14,,15,,,16,40,,,,17,

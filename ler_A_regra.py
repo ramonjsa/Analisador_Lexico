@@ -49,9 +49,8 @@ print(b[]['indice'])
 '''
 a = {}
 
-with open("regramod.csv") as myfile:
+with open("regra_nao_terminal.csv") as myfile:
     for line in myfile:
         values = "".join(line.split()).split(',')
-
         a.update({values[0]:values[1]})
 print (a['3'])

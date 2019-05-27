@@ -25,4 +25,4 @@ with open("acoes.csv") as myfile:
         else:
             values = "".join(line.split()).split(',')
             a.append({mykeys[n]:values[n] for n in range(0,len(mykeys))})
-print(a[77]['estado'])
+print(a[0])

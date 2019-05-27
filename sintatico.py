@@ -17,7 +17,23 @@ def tabela_de_acoes():
                 a.append({mykeys[n]: values[n] for n in range(0, len(mykeys))})
     #print(a[77]['id'])
     return a
+def regra_modulo():
+    a = {}
+    with open("regramod.csv") as myfile:
+        for line in myfile:
+            values = "".join(line.split()).split(',')
 
+            a.update({values[0]: values[1]})
+
+    return a
+def regra_A():
+    a = {}
+
+    with open("regra_nao_terminal.csv") as myfile:
+        for line in myfile:
+            values = "".join(line.split()).split(',')
+            a.update({values[0]: values[1]})
+    return a
 
 def main():
     f = open('palavras_chave.txt', 'r')
@@ -32,29 +48,47 @@ def main():
     lexico = Lexico("./FONTE.ALG")
 
     acoes = tabela_de_acoes()
-
+    modulo = regra_modulo()
+    print (modulo['9'])
+    nTerminal = regra_A()
+    print(modulo)
     pilha = deque()
     pilha.append(0)
+
     a = lexico.get_token()
+    print(pilha)
     print(a)
+
     while (True):
+
         s = pilha[pilha.__len__()-1]
-        sa =str(acoes[s][a[1]])
+        print("s "+str(s))
+        sa =str(acoes[int(s)][a[1]])
+        print("sa "+sa)
+
         if (sa.startswith('S(')):
-            t=re.A('\d+',sa)
+            #t=re.A('\d+',sa)
+            t=re.search('\d+',sa).group(0)
+            print("t = "+t)
             pilha.append(t)
-            print(t)
-        else if (sa.startswith('R(')) :
-            regra = re.A('\d+', sa)
+            a = lexico.get_token()
+        elif(sa.startswith('R(')):
+            regra = re.search('\d+',sa).group(0)
+            print("regra"+str(regra))
             #todo desempilha modulo de beta da regra
+            k=int(modulo[str(regra)])
+            print(k)
+            for i in range(0, k):
+                pilha.pop(k)
             t = pilha[pilha.__len__()-1]
-            pilha.append(regra)
-            #todo
-            #todo
-
-
-            print(regra)
-
-
+            A = nTerminal[regra]
+            t = str(acoes[int(t)][a[1]])
+            pilha.append(nTerminal[regra])
+            print("regra nº = "+regra)
+        elif (sa.startswith('ACCEPT')):
+            print("ACCEPT !!!!!!! compilou")
+            break
+        else:
+            print("rotina de recuperacao de erro")
 if __name__ == "__main__":
     main()
