@@ -15,7 +15,8 @@ def tabela_de_acoes():
             else:
                 values = "".join(line.split()).split(',')
                 a.append({mykeys[n]: values[n] for n in range(0, len(mykeys))})
-    #print(a[77]['id'])
+                #print(a[a.__len__()-1])
+    #print("30 OPRD ="+a[30]['OPRD'])
     return a
 def regra_modulo():
     a = {}
@@ -49,22 +50,24 @@ def main():
 
     acoes = tabela_de_acoes()
     modulo = regra_modulo()
-    print (modulo['9'])
+    #print (modulo['9'])
     nTerminal = regra_A()
-    print(modulo)
+    #print(modulo)
     pilha = deque()
     pilha.append(0)
 
     a = lexico.get_token()
-    print(pilha)
+    #print(pilha)
     print(a)
 
     while (True):
 
         s = pilha[pilha.__len__()-1]
-        print("s "+str(s))
+        print("s ="+str(s))
+        print("a = "+a[1])
+        #print(acoes[int(s)])
         sa =str(acoes[int(s)][a[1]])
-        print("sa "+sa)
+        print("sa ="+sa)
 
         if (sa.startswith('S(')):
             #t=re.A('\d+',sa)
@@ -77,18 +80,23 @@ def main():
             print("regra"+str(regra))
             #todo desempilha modulo de beta da regra
             k=int(modulo[str(regra)])
-            print(k)
+            print("|B| ="+str(k))
             for i in range(0, k):
-                pilha.pop(k)
+                pilha.pop()
             t = pilha[pilha.__len__()-1]
+            print("t ="+str(t))
             A = nTerminal[regra]
-            t = str(acoes[int(t)][a[1]])
-            pilha.append(nTerminal[regra])
-            print("regra nº = "+regra)
+            print("A = "+ A)
+            gotoTA=str(acoes[int(t)][A])
+            print("goto[ta] ="+gotoTA)
+
+            pilha.append(gotoTA)
+
         elif (sa.startswith('ACCEPT')):
             print("ACCEPT !!!!!!! compilou")
             break
         else:
             print("rotina de recuperacao de erro")
+            break
 if __name__ == "__main__":
     main()
