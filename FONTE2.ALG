@@ -29,4 +29,13 @@ inicio
     escreva C ;
     escreva "\n" ;
     escreva A ;
+    enquanto (1 > 2)faca
+        se ( B < 2 )
+        entao
+            se ( B <= 4 )
+            entao
+                escreva "B esta entre 2 e 4" ;
+            fimse
+        fimse
+    fimenquanto
 fim

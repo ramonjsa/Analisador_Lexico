@@ -18,7 +18,7 @@ class DFA:
                    10: "literal",
                    11: "OPM",
                    12: "EOF",
-                   13: "OPRD",
+                   13: "OPR",
                    14: "OPR",
                    15: "OPR",
                    16: "OPR",

@@ -36,6 +36,15 @@ def regra_A():
             a.update({values[0]: values[1]})
     return a
 
+def producao():
+    a = {}
+
+    with open("producoes.csv") as myfile:
+        for line in myfile:
+            values = "".join(line.split()).split(',')
+            a.update({values[0]: values[1]})
+    return a
+
 def main():
     f = open('palavras_chave.txt', 'r')
 
@@ -46,10 +55,12 @@ def main():
     print('analizador lexico e sintatico')
 
 
-    lexico = Lexico("./FONTE.ALG")
+    lexico = Lexico("./FONTE2.ALG")
 
     acoes = tabela_de_acoes()
     modulo = regra_modulo()
+    prod=producao()
+    print(prod)
     #print (modulo['9'])
     nTerminal = regra_A()
     #print(modulo)
@@ -89,14 +100,14 @@ def main():
             print("A = "+ A)
             gotoTA=str(acoes[int(t)][A])
             print("goto[ta] ="+gotoTA)
-
             pilha.append(gotoTA)
-
+            print(prod.get(regra))
         elif (sa.startswith('ACCEPT')):
             print("ACCEPT !!!!!!! compilou")
             break
         else:
             print("rotina de recuperacao de erro")
             break
+
 if __name__ == "__main__":
     main()
